@@ -19,9 +19,19 @@ jobs:
       with:
         timeout: 5
         setup-command: ''
+    - name: pypytest
+      id: pypytest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: pypytest
+        setup-command: pip install pytest
+        command: python -m pytest
+        timeout: 5
+        max-score: 5
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
         PYTHON-TEST_RESULTS: "${{steps.python-test.outputs.result}}"
+        PYPYTEST_RESULTS: "${{steps.pypytest.outputs.result}}"
       with:
-        runners: python-test
+        runners: python-test,pypytest
